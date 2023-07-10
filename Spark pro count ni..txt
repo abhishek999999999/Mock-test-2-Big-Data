@@ -1,0 +1,22 @@
+from pyspark import SparkContext, SparkConf
+
+# Create a SparkContext
+conf = SparkConf().setAppName("WordCount")
+sc = SparkContext(conf=conf)
+
+# Load the input text file
+input_file = "path/to/input_file.txt"
+text_file = sc.textFile(input_file)
+
+# Split each line into words
+words = text_file.flatMap(lambda line: line.split(" "))
+
+# Count the occurrences of each word
+word_counts = words.countByValue()
+
+# Print the word counts
+for word, count in word_counts.items():
+    print(f"{word}: {count}")
+
+# Stop the SparkContext
+sc.stop()
